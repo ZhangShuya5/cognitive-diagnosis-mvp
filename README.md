@@ -85,7 +85,7 @@ python app.py
 ### 运行测试
 
 ```bash
-pytest -v                         # 全量测试（53 个用例）
+pytest -v tests/                  # 全量测试（53 个用例）
 pytest tests/test_dina.py -v      # 仅算法单元测试
 pytest tests/test_e2e.py -v       # 仅 E2E 测试
 ```
