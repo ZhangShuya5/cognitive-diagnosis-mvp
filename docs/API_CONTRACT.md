@@ -1,7 +1,7 @@
 # API 契约文档
 
-> **阶段**: SDD 建模
-> **协议**: RESTful over HTTP
+> **阶段**: SDD 建模  
+> **协议**: RESTful over HTTP  
 > **Content-Type**: `application/json; charset=utf-8`
 
 ---
@@ -150,11 +150,11 @@ class HealthResponse(BaseModel):
 
 **描述**: 返回所有学生列表。
 
-| 属性 | 值 |
-|---|---|
-| **Method** | `GET` |
-| **Endpoint** | `/api/students` |
-| **Query Params** | 无 |
+| 属性               | 值               |
+| ---------------- | --------------- |
+| **Method**       | `GET`           |
+| **Endpoint**     | `/api/students` |
+| **Query Params** | 无               |
 
 **Response 200**:
 
@@ -186,11 +186,11 @@ class StudentListResponse(BaseModel):
 
 **描述**: 返回所有题目及每道题的 Q 矩阵信息（考查了哪些知识点）。
 
-| 属性 | 值 |
-|---|---|
-| **Method** | `GET` |
-| **Endpoint** | `/api/questions` |
-| **Query Params** | 无 |
+| 属性               | 值                |
+| ---------------- | ---------------- |
+| **Method**       | `GET`            |
+| **Endpoint**     | `/api/questions` |
+| **Query Params** | 无                |
 
 **Response 200**:
 
@@ -226,11 +226,11 @@ class QuestionListResponse(BaseModel):
 
 **描述**: 返回指定学生在 5 个知识点上的掌握概率（DINA 后验估计），以及雷达图所需数据格式。
 
-| 属性 | 值 |
-|---|---|
-| **Method** | `GET` |
-| **Endpoint** | `/api/diagnosis/{student_id}` |
-| **Path Param** | `student_id: int` — 学生 ID |
+| 属性             | 值                             |
+| -------------- | ----------------------------- |
+| **Method**     | `GET`                         |
+| **Endpoint**   | `/api/diagnosis/{student_id}` |
+| **Path Param** | `student_id: int` — 学生 ID     |
 
 **Response 200**:
 
@@ -298,11 +298,11 @@ class ErrorResponse(BaseModel):
 
 **描述**: 返回知识图谱的完整结构，包括 5 个知识点节点及它们之间的前驱后继有向边（≥4 条）。
 
-| 属性 | 值 |
-|---|---|
-| **Method** | `GET` |
-| **Endpoint** | `/api/knowledge_graph` |
-| **Query Params** | 无 |
+| 属性               | 值                      |
+| ---------------- | ---------------------- |
+| **Method**       | `GET`                  |
+| **Endpoint**     | `/api/knowledge_graph` |
+| **Query Params** | 无                      |
 
 **Response 200**:
 
@@ -368,24 +368,24 @@ class ErrorResponse(BaseModel):
 
 ```mermaid
 flowchart LR
-    Client[浏览器 / ECharts] --> S1[GET /api/students]
-    Client --> S2[GET /api/questions]
-    Client --> S3[GET /api/diagnosis/{student_id}]
-    Client --> S4[GET /api/knowledge_graph]
+    Client["浏览器 / ECharts"] --> S1["GET /api/students"]
+    Client --> S2["GET /api/questions"]
+    Client --> S3["GET /api/diagnosis/{student_id}"]
+    Client --> S4["GET /api/knowledge_graph"]
 
     S1 --> DB[(SQLite)]
     S2 --> DB
-    S3 --> DINA[DINA 模型计算]
+    S3 --> DINA["DINA 模型计算"]
     DINA --> DB
     S4 --> DB
 ```
 
-| # | Method | Endpoint | 用途 | 数据来源 |
-|---|---|---|---|---|
-| 1 | `GET` | `/api/students` | 学生列表 | `students` 表 |
-| 2 | `GET` | `/api/questions` | 题目列表 + Q 矩阵 | `questions` + `q_matrix` |
-| 3 | `GET` | `/api/diagnosis/{student_id}` | 单生诊断 + 雷达图数据 | `x_matrix` + DINA 计算 |
-| 4 | `GET` | `/api/knowledge_graph` | 知识图谱结构 | `knowledge_points` + `knowledge_graph` |
+| # | Method | Endpoint                      | 用途           | 数据来源                                   |
+| - | ------ | ----------------------------- | ------------ | -------------------------------------- |
+| 1 | `GET`  | `/api/students`               | 学生列表         | `students` 表                           |
+| 2 | `GET`  | `/api/questions`              | 题目列表 + Q 矩阵  | `questions` + `q_matrix`               |
+| 3 | `GET`  | `/api/diagnosis/{student_id}` | 单生诊断 + 雷达图数据 | `x_matrix` + DINA 计算                   |
+| 4 | `GET`  | `/api/knowledge_graph`        | 知识图谱结构       | `knowledge_points` + `knowledge_graph` |
 
 ---
 
@@ -400,9 +400,9 @@ flowchart LR
 }
 ```
 
-| HTTP Status | error_code | 触发条件 |
-|---|---|---|
-| 400 | `bad_request` | 请求参数格式错误 |
-| 404 | `student_not_found` | `student_id` 不存在 |
-| 404 | `diagnosis_not_ready` | 该生尚无作答数据 |
-| 500 | `internal_error` | 服务器内部异常 |
+| HTTP Status | error_code            | 触发条件             |
+| ----------- | --------------------- | ---------------- |
+| 400         | `bad_request`         | 请求参数格式错误         |
+| 404         | `student_not_found`   | `student_id` 不存在 |
+| 404         | `diagnosis_not_ready` | 该生尚无作答数据         |
+| 500         | `internal_error`      | 服务器内部异常          |
